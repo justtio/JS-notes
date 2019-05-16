@@ -5,8 +5,7 @@
 [Modern JS Tutorial](https://javascript.info/)
 
 
-## Chapter 7
-
+## Chapter 7 面向对象的程序设计
 ### 函数表达式
 1. 函数声明
 
