@@ -440,10 +440,92 @@ var application = function(){
     }();    
 ```
 
-    
-   
+## Chapter 10 DOM
+---
+- DOM是针对HTML和XML文档的一个API，其描绘了一个层次化的节点树，允许添加、删除、修改页面部分内容。
+### 10.1 节点层次
+```
+Document
+  - Element：html
+        - Element：head
+            - Title：title
+                - text：sample page
+        - Element：body
+            - Element：p
+                - text：Hello World！
+ ```
+  
+#### 10.1.1 Node 类型
+__节点类型由node类型中定义的十二个数值常量__
 
- 
+- Node.ELEMENT_NODE(1);
+- Node.ATTRIBUTE_NODE(2);
+- Node.TEXT_NODE(3);
+- Node.CDATA_SECTIION_NODE(4);
+- Node.ENTITY_REFERENCE_NODE(5);
+- Node.ENTITY_NODE(6);
+- Node.PROCESSING_INSTRUCTION_NODE(7);
+- Node.COMMENT_NODE(8);
+- Node.DOCUMNET_NODE(9);
+- Node.DOCUMENT_TYPE_NODE(10);
+- Node.DOCUMENT_FRAGMENT_NODE(11);
+- Node.NOTATION_NODE(12);
+
+比较上述常量可以确定节点类型：
+```
+if (someNode.nodeType == Node.ELEMENT_NODE){
+    alert("Node is an element.");
+}//由于IE没有公开Node类型的构造函数，上述代码会在IE中会导致错误
+
+//为保持跨浏览器兼容，最好将nodeType属性与数值进行比较
+if (someNode.nodeType == 1){
+      value = someNode.nodeName;
+}
+//如果是元素，取得并保存nodeName的值，nodeName中始终保存元素的标签名，nodeValue的值始终为null
+```
+__操作节点__
+1. 添加节点 //
+- appendChild() //在父节点最后添加一个新节点
+```
+//someNode由多个子节点
+var returnedNode = someNode.appendChild(someNode.firstChild);
+alert(returnedNode == someNode.firstChild); //false
+alert(returnedNode == someNode.lastChild); //true
+```
+- insertBefore() //接受两个参数：要插入的节点，与作为参照的节点
+```
+returnedNode = someNode.insertBefore(newNode, null);
+alert(newNode == someNode.lastChild); //true
+//插入后成为最后一个子节点
+
+var returnedNode = someNode.insertBefore(newNode, someNode.firstChild);
+alert(returnedNode == newNode); //true
+alert(returnedNode == someNode.firstChild); //true
+//插入后成为第一个子节点
+
+returnedNode = someNode.insertBefore(newNode, someNode.firstChild);
+alert(newNode == someNode.childNodes[someNode.childNodes.length-2]); //true
+//插入到最后一个子节点的前面
+```
+- replaceChild() //接受一个参数，将被替换的节点
+```
+var returnedNode = someNode = someNode.replaceChild(newNode, someNode.firstChild);
+//替换第一个子节点
+
+returnedNode someNode.replaceChild(newNode, someNode.lastChild);
+//替换掉最后一个子节点
+```
+- removeChild()//接受一个参数，既要被移除的节点
+```
+var formerFirstChild = someNode.removeChild(someNode.firstChild);
+//移除第一个子节点
+
+var formerLastChild = someNode.removeChild(someNode.lastChild);
+//移除最后一个子节点
+```
+
+
+
     
  
 
